@@ -1,0 +1,14 @@
+.idea/
+.serverless/
+node_modules/
+*.bak
+/target
+/lib
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/.lein-*
+/.nrepl-port

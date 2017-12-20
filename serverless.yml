@@ -1,0 +1,24 @@
+service: aws-super-radiator
+
+provider:
+  name: aws
+  runtime: java8
+  region: eu-west-1
+  timeout: 240
+
+custom:
+  test: true
+
+package:
+  artifact: target/aws-super-radiator.jar
+
+functions:
+  htmlendpoint:
+    handler:  fi.sok.superradiator.Handler
+    events:
+      - http:
+          path: radiator
+          method: get
+
+plugins:
+  - serverless-clj-plugin
