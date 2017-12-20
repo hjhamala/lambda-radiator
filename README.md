@@ -1,5 +1,7 @@
 # Radiator
 
+[![screenshot](https://github.com/heikkiha/lambda-radiator/raw/master/images/screenshot.png)](#features)
+
 Radiator is a Clojure application which generates radiator view as html from configurable
 endpoints. Radiator can show Gitlab or AWS Codepipeline statuses. Also AWS Cloudwatch alarms 
 and custom metrics can be shown.
@@ -61,4 +63,7 @@ To start a web server for the application, run:
 
 ## License
 
-Copyright © 2017 FIXME
+
+https://opensource.org/licenses/BSD-2-Clause
+
+Copyright © 2017 Heikki Hämäläinen
