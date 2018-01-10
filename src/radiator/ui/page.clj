@@ -13,24 +13,26 @@
 (defn account-header
   [alarms pipelines name]
   (cond
-    (or (alarm/has-alarms? alarms) (pipeline/pipelines-failed? pipelines)) [:h1.t-b-15px-padding.text-center.black-background.red name]
-    (pipeline/pipelines-in-progress? pipelines) [:h1.text-center.t-b-15px-padding.black-background.yellow name]
-    :else [:h1.text-center.t-b-15px-padding.black-background.white name]))
+    (or (alarm/has-alarms? alarms) (pipeline/pipelines-failed? pipelines)) [:h1.t-b-10px-padding.text-center.black-background.red name]
+    (pipeline/pipelines-in-progress? pipelines) [:h1.text-center.t-b-10px-padding.black-background.yellow name]
+    :else [:h1.text-center.t-b-10px-padding.black-background.white name]))
 
 (defn make-row
   [accounts]
   [:div.container
    (for [{:keys [aws-status gitlab-status name]} accounts]
      (let [alarms (aws/transform-alarms (:alarms @aws-status))
+           alarms-history (aws/transform-alarm-histories (:alarms_history @aws-status))
            combined-pipelines (concat (aws/transform-pipelines (:pipelines @aws-status))
                                       (gitlab/transform-pipelines @gitlab-status))
            metrics (aws/transform-metrics (:metrics @aws-status))]
+
        [:div.item.width-32
         (account-header alarms combined-pipelines name)
-        [:div.container-2.min-heightbox.light-grey-background
-         [:div.item.border.no-padding
+        [:div.container-2.min-heightbox
+         [:div.item.border.no-padding.light-grey-background
           [:div.full-width
-           (alarm/alarms-box alarms)
+           (alarm/alarms-box alarms alarms-history)
            (pipeline/pipelines-box combined-pipelines)
            (metric/metrics-box metrics)]]]]))])
 
@@ -42,6 +44,10 @@
                :text-transform "uppercase"
                :margin         "0px"
                :font-size      "18px"}])
+   (css [:h2 {:font-family    "proxima-nova,sans-serif"
+              :text-transform "uppercase"
+              :margin-left         "10px"
+              :font-size      "12px"}])
     (css [:.header {:font-family "proxima-nova,sans-serif"
                     :font-size   "16px"}])
     (css [:span {:font-family "proxima-nova,sans-serif"
@@ -52,19 +58,20 @@
                        :justify-content "space-around"
                        :padding-left    "10px"
                        :padding-right   "10px"}])
-    (css [:.container-2 {:display         "flex"
+    (css [:.container-2 {
+                         :display         "flex"
                          :justify-content "space-around"
                          }])
-    (css [:.item {:border-bottom-left-radius  "10px"
-                  :border-bottom-right-radius "10px"
+    (css [:.item {
                   :padding                    "5px"
                   :flex-grow                  "1"}])
     (css [:.no-padding {:padding "0px"}])
     (css [:.t-b-5px-padding {:padding-top    "5px"
                              :padding-bottom "5px"}])
-    (css [:.t-b-15px-padding {:padding-top    "15px"
-                              :padding-bottom "15px"}])
-    (css [:.min-heightbox {:min-height "200px"}])
+    (css [:.t-b-10px-padding {:padding-top    "10px"
+                              :padding-bottom "10px"}])
+    (css [:.min-heightbox {
+                           :min-height "100px"}])
     (css [:.width-32 {:width "32%;"}])
     (css [:.header-img {:height "50px"
                         :vertical-align "middle"}])
@@ -84,11 +91,14 @@
     (css [:.warning-background {:padding-top      "5px"
                                 :padding-bottom   "5px"
                                 :background-color "#ff0000"}])
-    (css [:.ok-background {:padding-top      "5px"
-                           :padding-bottom   "5px"
+    (css [:.ok-background {;:padding-top      "5px"
+                           ;:padding-bottom   "5px"
                            :background-color "#40bf40"}])
     (css [:.black-background {:background-color "black"}])
-    (css [:.light-grey-background {:background-color "#f0f5f5"}])
+    (css [:.light-grey-background {:border-bottom-left-radius  "10px"
+                                   :border-bottom-right-radius "10px"
+                                   :background "#f0f5f5"
+                                   }])
     (css [:.text-center {:text-align "center"}])
     (css [:.border {:border-color "grey"
                     :border-width "thin"
@@ -120,7 +130,8 @@
     [:html
      [:head
       [:meta {:charset    "UTF-8"
-              :http-equiv "refresh" :content "10"}]
+              :http-equiv "refresh" :content "10"
+              }]
       [:meta {:http-equiv "Cache-Control" :content= "no-store"}]
       [:title config/title]
       styles]

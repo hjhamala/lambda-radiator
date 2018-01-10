@@ -1,6 +1,7 @@
 (ns radiator.source.aws
   (:require [clj-http.client :as client]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json]
+            [clj-time.format :as f]))
 
 (defn- round [s n]
   (.setScale (bigdec n) s java.math.RoundingMode/HALF_EVEN))
@@ -60,3 +61,27 @@
       (do
         (clojure.stacktrace/print-stack-trace e)
         nil))))
+
+;; Alarms history
+
+(def aws-timestamp-format
+  (f/formatter "YYYY-MM-dd'T'HH:mm:ss.SSSSSSZ"))
+
+(defn transform-history
+  [{:keys [AlarmName State Timestamp]}]
+  {:name AlarmName
+   :alarm-status State
+   :timestamp (f/parse aws-timestamp-format Timestamp)})
+
+(defn filter-only-newest
+  [mapped-history]
+  (->> (group-by :name mapped-history)
+        (map (fn[[k v]]{:name k
+                        :timestamp (:timestamp (last (sort-by :timestamp v)))}))))
+
+(defn transform-alarm-histories
+  [histories]
+  (filter-only-newest (map transform-history histories)))
+
+
+

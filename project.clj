@@ -10,7 +10,8 @@
                  [org.clojure/data.json "0.2.6"]
                  [ring/ring-jetty-adapter "1.6.0"]
                  [ring/ring-defaults "0.2.1"]
-                 [garden "1.3.3"]]
+                 [garden "1.3.3"]
+                 [clj-time "0.14.2"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler radiator.handler/app}
   :profiles

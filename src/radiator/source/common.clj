@@ -10,6 +10,7 @@
 (s/def ::alarm-status #{:ok :alarm})
 (s/def ::alarm (s/keys :req-un [::name ::alarm-status]))
 (s/def ::metric (s/keys :req-un [::name ::metric-value]))
+(s/def ::alarm-history (s/keys :req-un [::name ::alarm-status ::timestamp]))
 
 (defn get-status
   [{:keys [aws gitlab-api-key gitlab-pipelines name] :as end-point}]

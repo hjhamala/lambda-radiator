@@ -2,7 +2,8 @@
   (:require [clojure.test :refer :all]
             [radiator.source.common :as common]
             [radiator.source.aws :as aws]
-            [clojure.spec.alpha :as s]))
+            [clojure.spec.alpha :as s]
+            [clj-time.format :as f]))
 
 (deftest transform-pipeline
   (testing "Succeeded to :success"
@@ -41,3 +42,8 @@
     (let [result (aws/transform-metric {:name "test" :unit "Something else" :result 6.0})]
       (is (= result {:name "test" :metric-value 6.0}))
       (is (s/valid? ::common/metric result)))))
+
+
+
+
+
