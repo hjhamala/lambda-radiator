@@ -83,6 +83,7 @@
     (css [:.min-heightbox {
                            :min-height "100px"}])
     (css [:.width-32 {:width "32%;"}])
+   (css [:.margin-top-5 {:margin-top "5px"}])
     (css [:.header-img {:height "50px"
                         :vertical-align "middle"}])
    (css [:.status-img {:height "30px"
@@ -98,6 +99,9 @@
     (css [:.white {:color "white"}])
     (css [:.red {:color "red"}])
     (css [:.yellow {:color "yellow"}])
+   (css [:.red-background {:background-color "#ff0000"}])
+   (css [:.green-background {:background-color "#40bf40"}])
+   (css [:.yellow-background {:background-color "yellow"}])
     (css [:.warning-background {:padding-top      "5px"
                                 :padding-bottom   "5px"
                                 :background-color "#ff0000"}])
@@ -110,6 +114,10 @@
                                    :background "#f0f5f5"
                                    }])
     (css [:.text-center {:text-align "center"}])
+    (css [:.stage-element {:margin-top "5px"
+                           :margin-left "5px"
+                           :margin-right "5px"
+                           :padding "2px"}])
     (css [:.border {:border-color "grey"
                     :border-width "thin"
                     :border-style "solid"}])

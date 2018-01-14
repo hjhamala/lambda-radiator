@@ -6,7 +6,7 @@ Radiator is a Clojure application which generates radiator view as html from con
 endpoints. Radiator can show Gitlab or AWS Codepipeline statuses. Also AWS Cloudwatch alarms 
 and custom metrics can be shown.
 
-Currently radiator view is configured as 3*3 grid. This can be changed with little effort.
+Currently radiator view is configured as 3*2 grid. This can be changed with little effort.
 
 Radiator is quite usable in situations where is need to monitor multiple AWS accounts. 
 For example one can have different accounts for development, testing and production-

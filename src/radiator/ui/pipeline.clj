@@ -46,6 +46,20 @@
    (if-let [first-line (first-line-of-commit pipeline)]
      [:p.small first-line])])
 
+(defn stage-background
+  [stage]
+  (condp = (:status stage)
+    :success "green-background"
+    :in-progress "yellow-background"
+    :failure "red-background"
+    {}))
+
+(defn stages
+  [stages]
+  [:div.flex
+   (for [stage stages]
+     [:p.small.border.stage-element {:class (stage-background stage)} (:name stage)])])
+
 (defn pipelines-box
   [combined-pipelines]
   [:div.light-grey-background
@@ -61,7 +75,13 @@
      (for [pipeline (filter-ok combined-pipelines)]
        [:div.t-b-5px-padding
         (cond
-          (= (:pipeline-status pipeline) :success) [:div.flex img/codepipeline-succeed (commit-info pipeline)]
-          (= (:pipeline-status pipeline) :in-progress) [:div.flex img/codepipeline-ongoing (commit-info pipeline)]
+          (= (:pipeline-status pipeline) :success) [:div
+                                                    [:div.flex img/codepipeline-succeed (commit-info pipeline)]
+                                                    (stages (:stages pipeline))]
+          (= (:pipeline-status pipeline) :in-progress) [:div
+                                                        [:div.flex img/codepipeline-ongoing  (commit-info pipeline)]
+                                                        (stages (:stages pipeline))]
           (= (:pipeline-status pipeline) :unknown) [:div.flex img/codepipeline-ongoing [:p.small [:strong "unknown: "(:name pipeline)]]]
-          :else [:div.flex img/alarm-30px (commit-info pipeline)])]))])
+          :else [:div
+                 [:div.flex img/alarm-30px  (commit-info pipeline)]
+                 (stages (:stages pipeline))])]))])

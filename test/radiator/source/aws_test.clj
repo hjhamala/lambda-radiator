@@ -10,41 +10,49 @@
     (let [result (aws/transform-pipeline {:currentStatus "Succeeded"
                                           :name "test"
                                           :commitAuthor "foo"
-                                          :commitMessage "bar"})]
+                                          :commitMessage "bar"
+                                          :stages [{:name "First" :status "Succeeded"}]})]
       (is (= result {:pipeline-status :success
                      :name "test"
                      :author "foo"
-                     :message "bar"}))
+                     :message "bar"
+                     :stages [{:name "First" :status :success}]}))
       (is (s/valid? ::common/pipeline result))))
   (testing "Failed to :failed"
     (let [result (aws/transform-pipeline {:currentStatus "Failed"
                                           :name "test"
                                           :commitAuthor "foo"
-                                          :commitMessage "bar"})]
+                                          :commitMessage "bar"
+                                          :stages [{:name "First" :status "Failed"}]})]
       (is (= result {:pipeline-status :failed
                      :name "test"
                      :author "foo"
-                     :message "bar"}))
+                     :message "bar"
+                     :stages [{:name "First" :status :failed}]}))
       (is (s/valid? ::common/pipeline result))))
   (testing "InProgress to :in-progress"
     (let [result (aws/transform-pipeline {:currentStatus "InProgress"
                                           :name "test"
                                           :commitAuthor "foo"
-                                          :commitMessage "bar"})]
+                                          :commitMessage "bar"
+                                          :stages [{:name "First" :status "InProgress"}]})]
       (is (= result {:pipeline-status :in-progress
                      :name "test"
                      :author "foo"
-                     :message "bar"}))
+                     :message "bar"
+                     :stages [{:name "First" :status :in-progress}]}))
       (is (s/valid? ::common/pipeline result))))
   (testing "Anything else to :unknown"
     (let [result (aws/transform-pipeline {:currentStatus "Something else"
                                           :name "test"
                                           :commitAuthor "foo"
-                                          :commitMessage "bar"})]
+                                          :commitMessage "bar"
+                                          :stages []})]
       (is (= result {:pipeline-status :unknown
                      :name "test"
                      :author "foo"
-                     :message "bar"}))
+                     :message "bar"
+                     :stages []}))
       (is (s/valid? ::common/pipeline result)))))
 
 (deftest transform-alarm

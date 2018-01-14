@@ -8,25 +8,40 @@
 
 ;; Pipelines
 
+(def aws-pipeline->radiator
+  {"Succeeded" :success
+   "Failed" :failed
+   "InProgress" :in-progress})
+
+(defn transform-stages
+  [stages]
+  (map (fn[{:keys [name status]}]{:name name
+                                  :status (get aws-pipeline->radiator status)})
+       stages))
+
 (defn transform-pipeline
-  [{:keys [currentStatus name commitAuthor commitMessage] :as all}]
+  [{:keys [currentStatus name commitAuthor commitMessage stages] :as all}]
   (condp = currentStatus
     "Succeeded" {:name   name
                  :pipeline-status :success
                  :author commitAuthor
-                 :message commitMessage}
+                 :message commitMessage
+                 :stages (transform-stages stages)}
     "Failed"    {:name   name
                  :pipeline-status :failed
                  :author commitAuthor
-                 :message commitMessage}
+                 :message commitMessage
+                 :stages (transform-stages stages)}
     "InProgress" {:name   name
                   :pipeline-status :in-progress
                   :author commitAuthor
-                  :message commitMessage}
+                  :message commitMessage
+                  :stages (transform-stages stages)}
     {:name name
      :pipeline-status :unknown
      :author commitAuthor
-     :message commitMessage}))
+     :message commitMessage
+     :stages stages}))
 
 (defn transform-pipelines
   [pipelines]

@@ -6,7 +6,7 @@
   (when (not-empty metrics)
     [:div.light-grey-background
      [:div
-      [:div.ok-background
+      [:div.ok-background.margin-top-5
        [:div.t-b-5px-padding {:align "center"}
         img/statistics-30px
         [:span.header.text-center "Metrics"]]]
