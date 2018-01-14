@@ -63,5 +63,5 @@
         (cond
           (= (:pipeline-status pipeline) :success) [:div.flex img/codepipeline-succeed (commit-info pipeline)]
           (= (:pipeline-status pipeline) :in-progress) [:div.flex img/codepipeline-ongoing (commit-info pipeline)]
-          (= (:pipeline-status pipeline) :unknown) [:div.flex img/codepipeline-ongoing (commit-info pipeline)]
+          (= (:pipeline-status pipeline) :unknown) [:div.flex img/codepipeline-ongoing [:p.small [:strong "unknown: "(:name pipeline)]]]
           :else [:div.flex img/alarm-30px (commit-info pipeline)])]))])
