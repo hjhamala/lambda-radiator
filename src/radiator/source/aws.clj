@@ -9,16 +9,24 @@
 ;; Pipelines
 
 (defn transform-pipeline
-  [{:keys [currentStatus name]}]
+  [{:keys [currentStatus name commitAuthor commitMessage] :as all}]
   (condp = currentStatus
     "Succeeded" {:name   name
-                 :pipeline-status :success}
+                 :pipeline-status :success
+                 :author commitAuthor
+                 :message commitMessage}
     "Failed"    {:name   name
-                 :pipeline-status :failed}
+                 :pipeline-status :failed
+                 :author commitAuthor
+                 :message commitMessage}
     "InProgress" {:name   name
-                  :pipeline-status :in-progress}
+                  :pipeline-status :in-progress
+                  :author commitAuthor
+                  :message commitMessage}
     {:name name
-     :pipeline-status :unknown}))
+     :pipeline-status :unknown
+     :author commitAuthor
+     :message commitMessage}))
 
 (defn transform-pipelines
   [pipelines]
@@ -55,7 +63,7 @@
   [{:keys [uri api-key]}]
   (try
     (json/read-str (:body (client/get uri
-                                      {:socket-timeout 2000 :conn-timeout 2000
+                                      {:socket-timeout 10000 :conn-timeout 2000
                                        :headers {"x-api-key" api-key}})) :key-fn keyword)
     (catch Exception e
       (do

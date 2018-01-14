@@ -6,7 +6,7 @@
 
 (s/def ::name string?)
 (s/def ::pipeline-status #{:success :in-progress :failed :unknown})
-(s/def ::pipeline (s/keys :req-un [::name ::pipeline-status]))
+(s/def ::pipeline (s/keys :req-un [::name ::pipeline-status ::message ::author]))
 (s/def ::alarm-status #{:ok :alarm})
 (s/def ::alarm (s/keys :req-un [::name ::alarm-status]))
 (s/def ::metric (s/keys :req-un [::name ::metric-value]))

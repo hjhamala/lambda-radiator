@@ -13,6 +13,9 @@
 (def codepipeline-succeed
   [:img.status-img {:src (:succeed config/images)}])
 
+(def codepipeline-succeed-float-left
+  [:img.status-img.float-left {:src (:succeed config/images)}])
+
 (def statistics-30px
   [:img.status-img {:src (:statistics config/images)}])
 

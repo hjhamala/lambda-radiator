@@ -7,30 +7,58 @@
 
 (deftest transform-pipeline
   (testing "Succeeded to :success"
-    (let [result (aws/transform-pipeline {:currentStatus "Succeeded" :name "test"})]
-      (is (= result {:pipeline-status :success :name "test"}))
+    (let [result (aws/transform-pipeline {:currentStatus "Succeeded"
+                                          :name "test"
+                                          :commitAuthor "foo"
+                                          :commitMessage "bar"})]
+      (is (= result {:pipeline-status :success
+                     :name "test"
+                     :author "foo"
+                     :message "bar"}))
       (is (s/valid? ::common/pipeline result))))
   (testing "Failed to :failed"
-    (let [result (aws/transform-pipeline {:currentStatus "Failed" :name "test"})]
-      (is (= result {:pipeline-status :failed :name "test"}))
+    (let [result (aws/transform-pipeline {:currentStatus "Failed"
+                                          :name "test"
+                                          :commitAuthor "foo"
+                                          :commitMessage "bar"})]
+      (is (= result {:pipeline-status :failed
+                     :name "test"
+                     :author "foo"
+                     :message "bar"}))
       (is (s/valid? ::common/pipeline result))))
   (testing "InProgress to :in-progress"
-    (let [result (aws/transform-pipeline {:currentStatus "InProgress" :name "test"})]
-      (is (= result {:pipeline-status :in-progress :name "test"}))
+    (let [result (aws/transform-pipeline {:currentStatus "InProgress"
+                                          :name "test"
+                                          :commitAuthor "foo"
+                                          :commitMessage "bar"})]
+      (is (= result {:pipeline-status :in-progress
+                     :name "test"
+                     :author "foo"
+                     :message "bar"}))
       (is (s/valid? ::common/pipeline result))))
   (testing "Anything else to :unknown"
-    (let [result (aws/transform-pipeline {:currentStatus "Something else" :name "test"})]
-      (is (= result {:pipeline-status :unknown :name "test"}))
+    (let [result (aws/transform-pipeline {:currentStatus "Something else"
+                                          :name "test"
+                                          :commitAuthor "foo"
+                                          :commitMessage "bar"})]
+      (is (= result {:pipeline-status :unknown
+                     :name "test"
+                     :author "foo"
+                     :message "bar"}))
       (is (s/valid? ::common/pipeline result)))))
 
 (deftest transform-alarm
   (testing "OK to :ok"
-    (let [result (aws/transform-alarm {:AlarmName "test" :StateValue "OK"})]
-      (is (= result {:alarm-status :ok :name "test"}))
+    (let [result (aws/transform-alarm {:AlarmName "test"
+                                       :StateValue "OK"})]
+      (is (= result {:alarm-status :ok
+                     :name "test"}))
       (is (s/valid? ::common/alarm result))))
   (testing "Anything else to alarm"
-    (let [result (aws/transform-alarm {:AlarmName "test" :StateValue "Something else"})]
-      (is (= result {:alarm-status :alarm :name "test"}))
+    (let [result (aws/transform-alarm {:AlarmName "test"
+                                       :StateValue "Something else"})]
+      (is (= result {:alarm-status :alarm
+                     :name "test"}))
       (is (s/valid? ::common/alarm result)))))
 
 (deftest transform-metric

@@ -62,6 +62,16 @@
                          :display         "flex"
                          :justify-content "space-around"
                          }])
+
+   (css [:.flex {:display         "flex"}])
+   (css [:.container-column {
+                        :display         "flex"
+                             :justify-content "center"
+                        :flex-direction "column"
+                        }])
+    (css [:.float-left {:float         "left"}])
+    (css [:.small {:margin 0
+                   :font-size          "12px"}])
     (css [:.item {
                   :padding                    "5px"
                   :flex-grow                  "1"}])
