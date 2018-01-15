@@ -51,7 +51,7 @@
   (condp = (:status stage)
     :success "green-background"
     :in-progress "yellow-background"
-    :failure "red-background"
+    :failed "red-background"
     {}))
 
 (defn stages
