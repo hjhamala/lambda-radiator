@@ -1,6 +1,5 @@
 (ns radiator.source.gitlab
   (:require [clojure.data.json :as json]
-            [radiator.ui.pipeline :as pipeline]
             [clj-http.client :as client]))
 
 (defn- transform-pipeline
@@ -22,7 +21,8 @@
   [uri api-key]
   (try
     (let [result (client/get uri
-                             {:socket-timeout 1000 :conn-timeout 1000
+                             {:socket-timeout 1000
+                              :conn-timeout 1000
                               :headers        {"Private-Token" api-key}})]
       (first (json/read-str (:body result))))
     (catch Exception e {:pipeline-status "unknown"})))

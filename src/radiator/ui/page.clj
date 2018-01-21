@@ -13,8 +13,8 @@
 (defn account-header
   [alarms pipelines name]
   (cond
-    (or (alarm/has-alarms? alarms) (pipeline/pipelines-failed? pipelines)) [:h1.t-b-10px-padding.text-center.black-background.red name]
-    (pipeline/pipelines-in-progress? pipelines) [:h1.text-center.t-b-10px-padding.black-background.yellow name]
+    (or (common/has-alarms? alarms) (common/pipelines-failed? pipelines)) [:h1.t-b-10px-padding.text-center.black-background.red name]
+    (common/pipelines-in-progress? pipelines) [:h1.text-center.t-b-10px-padding.black-background.yellow name]
     :else [:h1.text-center.t-b-10px-padding.black-background.white name]))
 
 (defn make-row
