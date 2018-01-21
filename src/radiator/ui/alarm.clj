@@ -13,7 +13,7 @@
          [:div.t-b-5px-padding {:align "center"}
           img/alarm-30px
           [:span.header.text-center "Alarms"]]]
-        (for [alarm (common/filter-ok alarms)]
+        (for [alarm (common/filter-ok-alarms alarms)]
           [:div.t-b-5px-padding img/alarm-30px [:span (:name alarm)]])]
        [:div
         [:div.ok-background
