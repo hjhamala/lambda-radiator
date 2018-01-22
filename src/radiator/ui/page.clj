@@ -39,7 +39,8 @@
 (def styles
   [:style
    (css [:body {:margin  "0px"
-                :padding "0px"}])
+                :padding "0px"
+                :background-color "#888888"}])
    (css [:h1 {:font-family    "proxima-nova,sans-serif"
               :text-transform "uppercase"
               :margin         "0px"
@@ -82,7 +83,8 @@
                              :padding-bottom "10px"}])
    (css [:.min-heightbox {
                           :min-height "100px"}])
-   (css [:.width-32 {:width "32%;"}])
+   (css [:.width-32 {:width "32%";
+                     :padding "10px"}])
    (css [:.margin-top-5 {:margin-top "5px"}])
    (css [:.header-img {:height         "50px"
                        :vertical-align "middle"}])
@@ -102,16 +104,16 @@
    (css [:.red-background {:background-color "#ff0000"}])
    (css [:.green-background {:background-color "#40bf40"}])
    (css [:.yellow-background {:background-color "yellow"
-                             :background-image "repeating-linear-gradient(
+                              :background-image "repeating-linear-gradient(
                                                                          -45deg,
                                                                          transparent,
                                                                          transparent 1rem,
                                                                          #cecc71 1rem,
                                                                          #cecc71 2rem
                                                                          )"
-                             :background-size  "200% 200%"
-                             :animation        "barberpole 10s linear infinite"
-                             }])
+                              :background-size  "200% 200%"
+                              :animation        "barberpole 10s linear infinite"
+                              }])
 
    "@keyframes barberpole {
                           100% {
@@ -124,7 +126,10 @@
    (css [:.ok-background {;:padding-top      "5px"
                           ;:padding-bottom   "5px"
                           :background-color "#40bf40"}])
-   (css [:.black-background {:background-color "black"}])
+   (css [:.black-background {:background "linear-gradient(#222222, #000000)"
+                             :box-shadow "0px 4px 8px 0px rgba(0,0,0,0.5)"
+                             :border-top-left-radius  "10px"
+                             :border-top-right-radius "10px"}])
    (css [:.light-grey-background {:border-bottom-left-radius  "10px"
                                   :border-bottom-right-radius "10px"
                                   :background                 "#f0f5f5"
@@ -134,9 +139,10 @@
                           :margin-left  "5px"
                           :margin-right "5px"
                           :padding      "2px"}])
-   (css [:.border {:border-color "grey"
-                   :border-width "thin"
-                   :border-style "solid"}])
+   (css [:.border {:border-color "gray"
+                   :border-width "1px"
+                   :border-style "solid"
+                   :box-shadow "0px 4px 8px 0px rgba(0,0,0,0.5)"}])
    (css [:table {:padding "10px"}])
    (css [:th {:padding    "5px"
               :text-align "left"

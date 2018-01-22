@@ -50,24 +50,25 @@
   [pipelines]
   [:div.t-b-5px-padding img/ok-30px [:span (str "All " (count pipelines) " OK")]])
 
+(defn pipeline-with-stages
+  [pipeline image]
+  [:div
+   [:div.flex image (commit-info pipeline)]
+   (stages (:stages pipeline))])
+
 (defn list-not-succeeded-pipelines
   [pipelines]
   (for [pipeline (common/filter-succeeded-pipelines pipelines)]
     [:div.t-b-5px-padding
      (cond
-       (= (:pipeline-status pipeline) :success) [:div
-                                                 [:div.flex img/codepipeline-succeed (commit-info pipeline)]
-                                                 (stages (:stages pipeline))]
-       (= (:pipeline-status pipeline) :in-progress) [:div
-                                                     [:div.flex img/codepipeline-ongoing  (commit-info pipeline)]
-                                                     (stages (:stages pipeline))]
+       (= (:pipeline-status pipeline) :success) (pipeline-with-stages pipeline img/codepipeline-succeed)
+       (= (:pipeline-status pipeline) :in-progress) (pipeline-with-stages pipeline img/codepipeline-ongoing)
        (= (:pipeline-status pipeline) :unknown) [:div.flex img/codepipeline-ongoing [:p.small [:strong "unknown: "(:name pipeline)]]]
-       :else [:div
-              [:div.flex img/alarm-30px  (commit-info pipeline)]
-              (stages (:stages pipeline))])]))
+       :else (pipeline-with-stages pipeline img/alarm-30px))]))
 
 (defn pipelines-box
   [combined-pipelines]
+  (println combined-pipelines)
   [:div.light-grey-background
    (if (common/pipelines-failed? combined-pipelines)
      (pipelines-header "warning-background" combined-pipelines)
