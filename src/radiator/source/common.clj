@@ -2,6 +2,7 @@
   (:require [radiator.source.aws :as aws]
             [radiator.source.gitlab :as gitlab]
             [radiator.config :as config]
+            [radiator.source.endpoint :as endpoint]
             [clojure.spec.alpha :as s]))
 
 (s/def ::name string?)
@@ -61,13 +62,15 @@
   (filter-when-key-with-value :alarm-status :ok alarms-list))
 
 (defn get-status
-  [{:keys [aws gitlab-api-key gitlab-pipelines name] :as end-point}]
-  {:name name
-   :aws-status    (future
-                    (when aws
-                      (aws/pipeline-and-alarm-statuses aws)))
-   :gitlab-status (future
-                    (mapv gitlab/pipeline-status gitlab-pipelines))})
+  [{:keys [aws endpoints gitlab-pipelines name] :as end-point}]
+  {:name            name
+   :endpoint-status (->> (mapv #(future (endpoint/check-status %)) endpoints)
+                         (mapv deref))
+   :aws-status      (future
+                      (when aws
+                        (aws/pipeline-and-alarm-statuses aws)))
+   :gitlab-status   (future
+                      (mapv gitlab/pipeline-status gitlab-pipelines))})
 
 (defn get-statuses
   []

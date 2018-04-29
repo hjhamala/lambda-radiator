@@ -1,6 +1,7 @@
 (ns radiator.ui.page
   (:require [hiccup.core :as hiccup]
             [radiator.ui.pipeline :as pipeline]
+            [radiator.ui.endpoint :as endpoint]
             [radiator.ui.metric :as metric]
             [radiator.ui.alarm :as alarm]
             [radiator.source.aws :as aws]
@@ -20,7 +21,8 @@
 (defn make-row
   [accounts]
   [:div.container
-   (for [{:keys [aws-status gitlab-status name]} accounts]
+   (for [{:keys [aws-status gitlab-status name endpoint-status]} accounts]
+
      (let [alarms (aws/transform-alarms (:alarms @aws-status))
            alarms-history (aws/transform-alarm-histories (:alarms_history @aws-status))
            combined-pipelines (concat (aws/transform-pipelines (:pipelines @aws-status))
@@ -32,12 +34,15 @@
         [:div.container-2.min-heightbox
          [:div.item.border.no-padding.light-grey-background
           [:div.full-width
+           (endpoint/endpoints-box endpoint-status)
            (alarm/alarms-box alarms alarms-history)
            (pipeline/pipelines-box combined-pipelines)
            (metric/metrics-box metrics)]]]]))])
 
 (def styles
   [:style
+   (css [:.organization {:max-height "40px"
+                         :padding  "5px"}])
    (css [:body {:margin  "0px"
                 :padding "0px"
                 :background-color "#888888"}])
@@ -153,7 +158,7 @@
 
 (def page-header
   [:div.black-background
-   [:img.header-img {:src (:organization config/images)}]
+   [:img.header-img.organization {:src (:organization config/images)}]
    (when (:cloud-provider config/images)
      [:img.header-img {:src (:cloud-provider config/images)}])
    [:span.header-site-name config/site-name]])

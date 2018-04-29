@@ -1,3 +1,6 @@
+## 2018-04-29 
+* Add support for endpoint polling.
+
 ## 2018-01-14 (1/2)
 * Show CodePipeline stages with color indicating the current stage. Requires 
 Radiator Exposer update also.

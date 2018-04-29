@@ -22,6 +22,8 @@ Endpoints are configured as Clojure code in namespace radiator.config.
 {:name "Name of the project"
 :aws {:uri     "Uri to aws-endpoint poller"
       :api-key "key"}
+:endpoints [{:name "Health check for my software"
+             :uri "https://myapp.app/health"
 :gitlab-pipelines [{:name    "Name of the gitlab pipeline"
                     :uri     "Uri to endpoint -> https://{domain}/api/v4/projects/{:id}/pipelines"
                     :api-key "api-key"}]}

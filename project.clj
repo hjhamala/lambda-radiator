@@ -11,6 +11,7 @@
                  [ring/ring-jetty-adapter "1.6.0"]
                  [ring/ring-defaults "0.2.1"]
                  [garden "1.3.3"]
+                 [slingshot "0.12.2"]
                  [clj-time "0.14.2"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler radiator.handler/app}

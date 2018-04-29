@@ -13,9 +13,16 @@
 (def app
   (wrap-defaults app-routes site-defaults))
 
+(defonce server (atom nil))
+
 (defn start
   []
-  (ring/run-jetty #'app {:port 8080 :join? false}))
+  (reset!
+    server (ring/run-jetty #'app {:port 8080 :join? false})))
+
+(defn stop
+  []
+  (.stop @server))
 
 (defn -main
   [& args]
